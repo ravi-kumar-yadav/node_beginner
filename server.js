@@ -9,12 +9,22 @@ function start(route, handle) {
 		// for each request following code will be executed twice
 		// fetch requested path from the request
 		var pathname = url.parse(request.url).pathname;
-
 		// due to subsequent call for "favicon.ico" file
 		console.log("Request for " + pathname + " recieved");
-		
+
+		// store all data received from multiple Post chunks
+		var postData = "";
+		request.setEncoding("utf8");
+
+		request.addListener("data", function(postDataChunk) {
+			postData += postDataChunk;
+			console.log("Received POST data chunk: " + postDataChunk + " of size: " + postDataChunk.length);
+		});
+
 		// calling router function for any routing task
-		route(pathname, handle, response);
+		request.addListener("end", function(){
+			route(pathname, handle, response, postData);
+		});
 	}
 
 	http.createServer(onRequest).listen(port);
@@ -23,4 +33,3 @@ function start(route, handle) {
 }
 
 exports.start = start;
-
