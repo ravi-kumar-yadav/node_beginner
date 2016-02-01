@@ -1,4 +1,5 @@
 var exec = require("child_process").exec;
+var querystring = require("querystring");
 
 var seconds = 2;
 
@@ -26,7 +27,10 @@ function start(response){
 function upload(response, postData){
 	console.log("Request handler 'upload' was called");
 	response.writeHead(200, {"Content-Type":"text/plain"});
-	response.write("You have sent data: " + postData + " of size: " + postData.length);
+	var parsedData = querystring.parse(postData).text;
+	response.write("You have sent data: " + parsedData);
+	response.write("\n");
+	response.write("size: " + parsedData.length);
 	response.end();
 }
 
