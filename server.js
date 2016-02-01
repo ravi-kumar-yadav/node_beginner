@@ -14,10 +14,10 @@ function start(route, handle) {
 		var pathname = url.parse(request.url).pathname;
 
 		// calling router function for any routing task
-		route(pathname, handle);
+		var content = route(pathname, handle);
 
 		response.writeHead(200, {"Content-Type":"text/plain"});
-		response.write("Hello World!!!");
+		response.write(content);
 		response.end();
 	}
 
