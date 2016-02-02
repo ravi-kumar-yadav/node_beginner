@@ -27,7 +27,7 @@ function start(response){
 function upload(response, postData){
 	console.log("Request handler 'upload' was called");
 	response.writeHead(200, {"Content-Type":"text/plain"});
-	var parsedData = querystring.parse(postData).text;
+	var parsedData = querystring.parse(postData)["text"];
 	response.write("You have sent data: " + parsedData);
 	response.write("\n");
 	response.write("size: " + parsedData.length);
